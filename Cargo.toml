@@ -1,0 +1,11 @@
+
+[workspace]
+members = ["crates/branch_core", "crates/notes_ui"]
+resolver = "2"
+package.readme = "README.md"
+package.license = "Apache-2.0"
+
+[profile.release]
+strip = true
+lto = true
+codegen-units = 1
