@@ -8,3 +8,5 @@ pub struct NotesManager {
 }
 
 mod add;
+mod delete;
+mod change;

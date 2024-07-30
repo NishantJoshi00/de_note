@@ -1,4 +1,4 @@
-use crate::errors::{AddError, ChangeError, ReadError};
+use crate::errors::{AddError, ChangeError, DeleteError, ReadError};
 use crate::types::{BranchId, FLink, Link, Note, NoteId};
 use error_stack::Result;
 
@@ -86,20 +86,30 @@ pub trait ChangeBranch {
         reason: String,
     ) -> Result<(), ChangeError>;
 
-    fn collapse_branch(&mut self, branch: BranchId, link_note: NoteId) -> Result<(), ChangeError>;
+    fn collapse_branch(
+        &mut self,
+        note: NoteId,
+        branch: BranchId,
+        link_note: NoteId,
+    ) -> Result<(), ChangeError>;
 }
 
 pub trait DeleteNote {
-    fn delete_note(&mut self, note: NoteId) -> Result<(), AddError>;
+    fn delete_note(&mut self, note: NoteId) -> Result<(), DeleteError>;
 }
 
 pub trait DeleteLink {
-    fn delete_link(&mut self, from_note: NoteId, to_note: NoteId) -> Result<(), AddError>;
+    fn delete_link(&mut self, from_note: NoteId, to_note: NoteId) -> Result<(), DeleteError>;
 }
 
 pub trait DeleteBranch {
-    fn delete_branch(&mut self, note: NoteId, branch: BranchId) -> Result<(), AddError>;
-    fn delete_branch_link(&mut self, branch: BranchId, link_note: NoteId) -> Result<(), AddError>;
+    fn delete_branch(&mut self, note: NoteId, branch: BranchId) -> Result<(), DeleteError>;
+    fn delete_branch_link(
+        &mut self,
+        note: NoteId,
+        branch: BranchId,
+        link_note: NoteId,
+    ) -> Result<(), DeleteError>;
 }
 
 pub trait ReadNote {

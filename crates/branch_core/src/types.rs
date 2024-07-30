@@ -37,7 +37,7 @@ pub struct BranchId(String);
 /// [`Link`] represents a link between two notes.
 /// It has a destination note id and an optional reason.
 ///
-#[cfg_attr(test, derive(Clone))]
+#[derive(Clone)]
 pub struct Link {
     pub id: NoteId,
     pub reason: String,
@@ -47,7 +47,7 @@ pub struct Link {
 /// [`Branch`] represents a branch in a note. It has a condition and a list of branches.
 /// Each branch can be a link or another branch. This allows for a tree-like structure in a note.
 ///
-#[cfg_attr(test, derive(Clone))]
+#[derive(Clone)]
 pub struct Branch {
     id: BranchId,
     pub condition: String,
@@ -59,7 +59,7 @@ pub struct Branch {
 /// It can be a link or a branch. This allows for a tree-like structure in a note.
 ///
 ///
-#[cfg_attr(test, derive(Clone))]
+#[derive(Clone)]
 pub enum FLink {
     Link(Link),
     Branch(Branch),
@@ -76,7 +76,7 @@ pub struct Note {
     pub title: String,
     pub subtitle: Option<String>,
     pub body: String,
-    backlinks: Vec<NoteId>,
+    pub backlinks: Vec<NoteId>,
     pub forwardlinks: Vec<FLink>,
     pub timestamp: time::PrimitiveDateTime,
 }
@@ -123,11 +123,33 @@ impl Note {
         self.id.clone()
     }
 
+    pub fn add_backlink(&mut self, id: NoteId) {
+        self.backlinks.push(id);
+    }
+
+    pub fn delete_backlink(&mut self, id: &NoteId) -> usize {
+        self.backlinks.retain(|x| x != id);
+        self.backlinks.len()
+    }
+
     #[cfg(test)]
     pub fn set_id(self, id: String) -> Self {
         Note {
             id: NoteId::new_test(id),
             ..self
         }
+    }
+}
+
+impl Branch {
+    pub fn new(condition: String) -> Self {
+        Branch {
+            id: BranchId::new(),
+            condition,
+            branches: Vec::new(),
+        }
+    }
+    pub fn get_id(&self) -> BranchId {
+        self.id.clone()
     }
 }

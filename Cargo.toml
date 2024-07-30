@@ -1,6 +1,6 @@
 
 [workspace]
-members = ["crates/branch_core", "crates/notes_ui"]
+members = ["crates/branch_core", "crates/de_note"]
 resolver = "2"
 package.readme = "README.md"
 package.license = "Apache-2.0"

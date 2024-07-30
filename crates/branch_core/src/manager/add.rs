@@ -1,7 +1,7 @@
 use error_stack::ensure;
 
 use crate::errors::AddError;
-use crate::manager_impl::{Add, AddBranch, AddLink, AddNote};
+use crate::manager_impl::{AddBranch, AddLink, AddNote};
 use crate::types;
 
 impl AddNote for super::NotesManager {
@@ -34,22 +34,95 @@ impl AddLink for super::NotesManager {
             AddError::NoteDoesNotExist
         );
 
-        let from_note = self
+        let from_note_ = self
             .notes
             .get_mut(&from_note)
             .ok_or(AddError::NoteDoesNotExist)?;
 
-        let duplicate_clause = from_note.forwardlinks.iter().any(|flink| match flink {
+        let duplicate_clause = from_note_.forwardlinks.iter().any(|flink| match flink {
             crate::types::FLink::Link(link) => link.id == to_note,
             crate::types::FLink::Branch(_) => false,
         });
 
         ensure!(!duplicate_clause, AddError::LinkAlreadyExists);
 
-        from_note.forwardlinks.push(types::FLink::Link(types::Link {
-            id: to_note,
+        from_note_
+            .forwardlinks
+            .push(types::FLink::Link(types::Link {
+                id: to_note.clone(),
+                reason,
+            }));
+
+        let to_note = self
+            .notes
+            .get_mut(&to_note)
+            .ok_or(AddError::NoteDoesNotExist)?;
+
+        to_note.add_backlink(from_note);
+
+        Ok(())
+    }
+}
+
+impl AddBranch for super::NotesManager {
+    fn create_branching(
+        &mut self,
+        note: types::NoteId,
+        condition: String,
+    ) -> error_stack::Result<types::BranchId, AddError> {
+        let note = self
+            .notes
+            .get_mut(&note)
+            .ok_or(AddError::NoteDoesNotExist)?;
+
+        let branch = types::Branch::new(condition);
+
+        let branch_id = branch.get_id();
+
+        note.forwardlinks.push(types::FLink::Branch(branch));
+
+        Ok(branch_id)
+    }
+
+    fn add_branch(
+        &mut self,
+        note: types::NoteId,
+        on_branch: types::BranchId,
+        link_note: types::NoteId,
+        reason: String,
+    ) -> error_stack::Result<(), AddError> {
+        ensure!(
+            self.notes.contains_key(&link_note),
+            AddError::NoteDoesNotExist
+        );
+
+        let note_ = self
+            .notes
+            .get_mut(&note)
+            .ok_or(AddError::NoteDoesNotExist)?;
+
+        let branch = note_
+            .forwardlinks
+            .iter_mut()
+            .find_map(|flink| match flink {
+                types::FLink::Branch(branch) if branch.get_id() == on_branch => Some(branch),
+                _ => None,
+            })
+            .ok_or(AddError::BranchDoesNotExist)?;
+
+        let duplicate_clause = branch.branches.iter().any(|link| link.id == link_note);
+
+        ensure!(!duplicate_clause, AddError::BranchAlreadyExists);
+
+        branch.branches.push(types::Link {
+            id: link_note.clone(),
             reason,
-        }));
+        });
+
+        self.notes
+            .get_mut(&link_note)
+            .ok_or(AddError::NoteDoesNotExist)?
+            .add_backlink(note);
 
         Ok(())
     }
