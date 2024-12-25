@@ -1,95 +1,132 @@
-# DeNote: A Terminal-based Note-Taking Application
+# DeNote
 
-DeNote is a powerful, fast, and intuitive note-taking application that runs in your terminal. Built with Rust, it offers a beautiful text-based user interface (TUI) powered by [ratatui](https://github.com/tui-rs-revival/ratatui), allowing for a seamless note-taking experience right from your command line.
+A powerful, terminal-based note-taking application with rich linking capabilities and an elegant TUI interface. Built in Rust for speed and reliability.
 
-## Features
+## Description
 
-- **Local Storage**: All your notes are stored locally, ensuring privacy and quick access.
-- **Forward Links**: Easily create and navigate through links between your notes.
-- **Decision Making**: Integrated tools to help with decision-making processes.
-- **Beautiful TUI**: A clean and responsive terminal user interface for a great note-taking experience.
-- **Fast and Efficient**: Leveraging Rust's performance to handle large numbers of notes with ease.
+DeNote reimagines note-taking for power users and developers by providing:
 
-## Progress
+- A beautiful terminal user interface that feels natural in your workflow
+- A powerful linking system that helps you connect and organize your thoughts
+- Local-first architecture ensuring privacy and quick access
+- Decision-making tools to help structure your thinking process
+- Blazing fast performance thanks to Rust
 
-> Current Version: 0.0.1-alpha
-
-### Completed Milestones
-
-- [x] Creating types for notes and links
-- [x] Basic note creation and storage interface definitions
-
-### In Progress
-
-- [ ] Implementation of manager interfaces
-  - [ ] Add Interface
-    - [x] Add Note
-    - [x] Add Link
-    - [ ] Add Branch
-  - [ ] Update Interface
-    - [ ] Update Note
-    - [ ] Update Link
-    - [ ] Update Branch
-  - [ ] Delete Interface
-    - [ ] Delete Note
-    - [ ] Delete Link
-    - [ ] Delete Branch
-  - [ ] Read Interface
-    - [ ] Read Note
-    - [ ] Read Link
-    - [ ] Read Branch
-- [ ] Implementation of note storage
-  - [ ] File-based storage
-  - [ ] Database-based storage
-- [ ] Implementation of notes tui
+Whether you're documenting code, organizing research, or managing personal notes, DeNote provides a streamlined, keyboard-driven experience right in your terminal.
 
 ## Installation
 
-Ensure you have Rust installed on your system. If not, you can install it from [rust-lang.org](https://www.rust-lang.org/tools/install).
+### Prerequisites
+- Rust toolchain and Cargo
+- Terminal with Unicode support
+- Git (for building from source)
 
-Then, you can install DeNote using cargo:
+### From Source
+```bash
+# Clone the repository
+git clone https://github.com/NishantJoshi00/de_note.git
+cd de_note
 
+# Build from source
+cargo build --release
+
+# The binary will be available at target/release/de_note
+```
+
+### Via Cargo
 ```bash
 cargo install de_note
 ```
 
-Or clone the repository and build from source:
-
-```bash
-git clone https://github.com/NishantJoshi00/de_note.git
-cd de_note
-cargo build --release
-```
-
 ## Usage
 
-To start DeNote, simply run:
-
+### Basic Commands
 ```bash
+# Start DeNote
 de_note
+
+# Access help
+de_note --help
 ```
 
-To understand how to use DeNote, you can refer to the [User Guide](crates/de_note/docs/references.md).
+For detailed usage instructions, please refer to our [User Guide](crates/de_note/docs/references.md).
 
-## Contributing
+## Features
 
-We welcome contributions to DeNote! Please feel free to submit issues, fork the repository and send pull requests!
+- **Local-First Storage**: 
+  - All notes stored locally on your machine
+  - Fast access and complete privacy
+  - No internet connection required
 
-1. Fork the project
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+- **Rich Linking System**:
+  - Create bidirectional links between notes
+  - Forward and backward link navigation
+  - Branch-based note organization
+  - Decision trees and structured thinking tools
+
+- **Terminal User Interface**:
+  - Clean, responsive design using ratatui
+  - Keyboard-driven navigation
+  - Intuitive commands and shortcuts
+  - Customizable themes and layouts
+
+- **Fast and Efficient**:
+  - Written in Rust for optimal performance
+  - Handles large numbers of notes with ease
+  - Quick search and filtering capabilities
+  - Efficient memory usage
+
+- **Note Organization**:
+  - Hierarchical note structure
+  - Tags and categories
+  - Smart linking suggestions
+  - Automatic backlinks
+
+## Project Status
+
+Current Version: 0.0.1-alpha
+
+### Completed
+- [x] Core note and link type definitions
+- [x] Basic note creation and storage interface
+- [x] Fundamental data structures
+
+### In Progress
+- [ ] Manager Interface Implementation
+  - Storage Operations (Create, Read, Update, Delete)
+  - Link Management
+  - Branch Handling
+- [ ] Storage Backend Development
+- [ ] TUI Implementation
+
+## Contributing Guidelines
+
+1. **Issue First**: Create or find an issue before starting work
+2. **Branch Naming**: Use descriptive branch names (feature/, bugfix/, etc.)
+3. **Issue Tags**: 
+   - [BUG] for bug reports
+   - [FEATURE] for feature requests
+   - [DOCS] for documentation improvements
+4. **Code Style**: Follow Rust standard formatting guidelines
+5. **Testing**: Ensure all tests pass before submitting PRs
+
+To contribute:
+1. Fork the repository
+2. Create your feature branch
+3. Implement your changes
+4. Add tests where appropriate
+5. Submit a pull request
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENSE) file for details.
 
 ## Acknowledgments
 
-- [ratatui](https://github.com/ratatui-org/ratatui) for the amazing TUI library
-- All contributors who have helped shape DeNote
+- [ratatui](https://github.com/ratatui-org/ratatui) for the excellent TUI framework
+- The Rust community for their incredible tools and support
+- All contributors who help make DeNote better
 
 ---
 
-Built with ❤️ using Rust
+Built with 🦀 in Rust
